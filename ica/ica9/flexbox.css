@@ -1,0 +1,86 @@
+body {
+  font: 1.2em / 1.5 sans-serif;
+}
+nav ul {
+  max-width: 750px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+nav a:link,
+nav a:visited {
+  background-color: #4d7298;
+  border: 2px solid #77a6b6;
+  border-radius: 0.5em;
+  color: white;
+  padding: 0.5em;
+  display: inline-block;
+  text-decoration: none;
+}
+
+nav ul {
+  /* Add styles here */
+  display: flex;
+  justify-content: space-between;
+}
+
+
+section.f2 ul {
+  max-width: 750px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+section.f2 li {
+  background-color: #4d7298;
+  border: 2px solid #77a6b6;
+  border-radius: 0.5em;
+  color: white;
+  padding: 0.5em;
+}
+
+section.f2 ul {
+  display: flex;
+}
+
+section.f2 li:first-child{
+    flex: 3;
+   
+}
+
+section.f2 li:nth-child(2){
+    flex: 2;
+}
+
+section.f2 li:nth-child(3){
+    flex: 1;
+}
+
+
+section.f3 ul {
+  width: 450px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+section.f3 li {
+  background-color: #4d7298;
+  border: 2px solid #77a6b6;
+  border-radius: 0.5em;
+  color: white;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
+section.f3 ul {
+  display: flex;
+  max-width: 750px;
+  flex-wrap: wrap;
+  /*justify-content: space-between; */
+}
+
+section.f3 li {
+  flex: auto;
+}
