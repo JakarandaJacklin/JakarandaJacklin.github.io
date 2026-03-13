@@ -10,6 +10,7 @@
             
             /* Derived Colors for Flexibility */
             --color-background: #170032;
+            --color-background-trans: #170032ed;
             --color-text-dark: var(--color-neutral);
             --color-text-light: rgb(0, 0, 0);
 
@@ -75,8 +76,27 @@ a:hover {
     text-decoration-color: var(--color-highlight);
 }
 
+
+
 a:visited {
     color: #E4D0F6;
+}
+
+nav a {
+    color: #B980FF;
+    text-decoration: none;
+    transition: color 0.3s ease, text-decoration-color 0.3s;
+}
+
+nav a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-color: var(--color-highlight);
+}
+
+nav a:visited{
+    color: #B980FF;
+    transition: color 0.3s ease, text-decoration-color 0.3s;
 }
 
 
@@ -160,11 +180,27 @@ li:hover img#Fiction{
 }
 
 
+@media (max-width: 749px){
+    nav {
+        background-color: var(--color-background-trans);
+        padding-left: 60px;
+        padding-right: 60px;
+        border-radius: 30px;
+        margin-right: -50px;
+        margin-left: -50px;
+    }
+}
 
 /* Phone Screen Basics */
 @media (min-width: 0px){
     
     /* CSS For Nav */
+    nav{
+        display: block;
+        position: sticky;
+        top: 0px;
+    }
+    
     nav ul {
         display: flex;
         justify-content: space-between;
@@ -176,16 +212,14 @@ li:hover img#Fiction{
         z-index: -4;
         display: block;
         
-        position: sticky;
-        bottom: -15%;
+        position: normal;
     }
 
     img.ground_img {
         z-index: -4;
         display: block;
 
-        position: sticky;
-        top: -15%;
+        position: normal;
 
     }
 
@@ -198,7 +232,7 @@ li:hover img#Fiction{
     .clouds {
         display: flex;
         justify-content: space-between;
-        position: sticky;
+        position: normal;
         top: 0;
     }
 
