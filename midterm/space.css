@@ -56,7 +56,7 @@ h2 {
     padding-top: 20px;
 }
 
-h3 {
+h3, .NavBar {
     font-size: 1.75rem;
     font-weight: 500;
     margin-bottom: var(--spacing-xs);
@@ -212,14 +212,14 @@ li:hover img#Fiction{
         z-index: -4;
         display: block;
         
-        position: normal;
+        position: static;
     }
 
     img.ground_img {
         z-index: -4;
         display: block;
 
-        position: normal;
+        position: static;
 
     }
 
@@ -232,7 +232,7 @@ li:hover img#Fiction{
     .clouds {
         display: flex;
         justify-content: space-between;
-        position: normal;
+        position: static;
         top: 0;
     }
 
