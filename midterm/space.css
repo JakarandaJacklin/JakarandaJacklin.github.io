@@ -102,6 +102,7 @@ nav a:visited{
 
 p {
     font-family: var(--font-secondary);
+    font-size: 1.25rem;
 }
 
 strong {
