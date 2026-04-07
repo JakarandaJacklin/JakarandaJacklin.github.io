@@ -79,6 +79,7 @@ class Ball {
         if (distance < this.size + ball.size) {
           ball.color = this.color = randomRGB();
           coll.push([this, ball])
+          calcKol(this)
         }
       }
     }
@@ -118,7 +119,7 @@ function loop() {
     ball.draw();
     ball.update();
     ball.collisionDetect(coll);
-    col(coll)
+    //col(coll)
 
   }
 
@@ -150,9 +151,19 @@ function calcCol(se, op) {
     
 }
 
+function calcKol (se) {
+    se.velX = se.velX * -1
+    se.velY = se.velY * -1
+
+
+
+}
+
 function col(coll) {
+    let p = []
     for (let i of coll) {
-        calcCol(i[0], i[1])
+        //calcCol(i[0], i[1])
+        //calcKol(i[0], i[1], p)
 
     }
 
