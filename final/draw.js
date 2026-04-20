@@ -15,7 +15,7 @@ let state = true
 let volNum = 0
 let submitting = false
 
-const brush = 10
+const brush = 2
 
 const colors = ["red", "blue", "green", "pink"]
 let ind = 0
