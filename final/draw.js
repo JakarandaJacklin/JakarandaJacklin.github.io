@@ -15,7 +15,7 @@ let state = true
 let volNum = 0
 let submitting = false
 
-const brush = 2
+const brush = 10
 
 const colors = ["red", "blue", "green", "pink"]
 let ind = 0
@@ -257,6 +257,7 @@ function submittt(){
         inctx.clearRect(0, 0, 1, 50)
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         drawBounds()
+        volLabel.textContent = "Volume: 0%"
 
 
     } else {
