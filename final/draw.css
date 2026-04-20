@@ -1,15 +1,27 @@
 canvas{
-    border: solid purple 3px;
+    /*border: solid purple 3px; */
     flex-grow: 0;
     /*width: 5%;
     height: 120px;
     margin: 0;*/
 }
 
+#indicator{
+    z-index: 10;
+    pointer-events: none;
+    border: none;
+    position: relative;
+}
+
 .volume-container {
     display: flex;
     max-width: 50vw;
+    position: static;
 
+}
+
+.canvas-container{
+    position: relative;
 }
 
 .tool {

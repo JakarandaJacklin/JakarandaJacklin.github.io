@@ -4,9 +4,16 @@ const volLabel = document.querySelector("#vol-label")
 const canvas = document.querySelector("#bar")
 const ctx = canvas.getContext('2d', { willReadFrequently: true })
 const toolBut = document.querySelector("#button-tool")
+const subBut = document.querySelector("#submit")
+const indicator = document.querySelector("#indicator")
+const inctx = indicator.getContext('2d', { willReadFrequently: true })
 
 let erase = false
 let draw = false
+
+let state = true
+let volNum = 0
+let submitting = false
 
 const brush = 10
 
@@ -24,8 +31,10 @@ canvas.addEventListener('mousedown', mouseDown)
 document.addEventListener('mouseup', mouseUp)
 canvas.addEventListener('mousemove', drawPixel)
 toolBut.addEventListener("click", toolButton)
+subBut.addEventListener("click", submitButton)
 
 let thisCol = []
+let globalPerc = 0
 
 
 
@@ -37,7 +46,7 @@ function drawBounds(){
 
 
 function drawPixel(event) {
-    if (draw == true){
+    if (draw == true && state == true){
         if (erase == false){
             ctx.fillStyle = 'black'
             ctx.fillRect(event.clientX - canvas.offsetLeft - (brush / 2), event.clientY - canvas.offsetTop - (brush/2), brush, brush)
@@ -58,7 +67,7 @@ function mouseUp(){
     draw = false
 
     let per = calcVolumePercent()
-    volLabel.textContent = "Volume: " + (per * 100).toFixed(0)
+    //volLabel.textContent = "Volume: " + (per * 100).toFixed(0)
 }
 
 function calcVolumePercent(){
@@ -79,31 +88,36 @@ function calcVolumePercent(){
     let prevCol = []
     
     for (i = 0; i < xStart; i++){
+        globalPerc = i
         prevCol = thisCol
         col = scanEmptyCol(i, width, height, pxs)
         if (col == false) {
             return (fillpx / width)
-        } else {
-            //advanceIndicator(prevCol, i, height)
         }
     }
 
     for (i = xStart + 1; i < (xStart + barW + 1); i++){
         prevCol = thisCol 
         col = scanCol(i, width, height, pxs)
+        globalPerc = i
         if (col == false) {
             return (fillpx / barW)
         } else {
             ctx.fillStyle = "red"
-            ctx.fillRect(i, yStart + 1, 1, 19)
+            //ctx.fillRect(i, yStart + 1, 1, 19)
             fillpx = fillpx + 1
         }
     }
 
+    globalPerc = globalPerc + 1
+
     for (i = xStart + barW + 2; i < width; i++){
+        
         col = scanEmptyCol(i, width, height, pxs)
         if (col == false) {
+            globalPerc = 1
             return 0
+            
         }
     }
 
@@ -114,23 +128,6 @@ function calcVolumePercent(){
 
 }
 
-function advanceIndicator(prevCol, x, height){
-    ctx.fillStyle = "red"
-    ctx.fillRect(x, 0, 1, height)
-    console.log(prevCol)
-    if (prevCol != []){
-        for (let i = 0; i < height; i++){
-            let coloor = `rgba(${prevCol[i].r}, ${prevCol[i].g}, ${prevCol[i].b}, ${prevCol[i].a})`
-            if (prevCol[i].a == 0){
-                ctx.clearRect(x-1, i, 1, 1)
-            } else {
-                ctx.fillStyle = coloor
-                ctx.fillRect(x-1, i, 1, 1)
-            }
-            
-        }
-    }
-}
 
 function getPixelColor(x, y, width, px) {
     const i = (y * width + x) * 4
@@ -150,7 +147,7 @@ function scanCol(x, width, height, px){
         //console.log(color)
         if (i < yStart){
             if (color.a > 0){
-                console.log("Above")
+                //console.log("Above")
                 //ctx.fillStyle = "red"
                 //ctx.fillRect(x, i, 1, 1)
                 return false
@@ -158,7 +155,7 @@ function scanCol(x, width, height, px){
 
         } else if (i > (yStart + barH)){
             if (color.a > 0) {
-                console.log("below")
+                //console.log("below")
                 return false
             }
         } else {
@@ -170,7 +167,7 @@ function scanCol(x, width, height, px){
         }
         
     }
-    console.log("peep")
+    //console.log("peep")
     
     //ind = ind + 1
     //if (ind == 5) { ind = 0 }
@@ -181,7 +178,8 @@ function scanCol(x, width, height, px){
 
 
 function scanEmptyCol(x, width, height, px){
-    console.log(height)
+    //console.log(height)
+    
     for (let i = 0; i < (height + 1); i++){
         color = getPixelColor(x, i, width, px)
         thisCol.push(color)
@@ -194,14 +192,99 @@ function scanEmptyCol(x, width, height, px){
 
 
 function toolButton(){
-    if (erase == false){
-        erase = true
-        toolBut.textContent = "Erase"
-    } else {
-        erase = false
+    if (state == false){
+        state = true
+        subBut.textContent = "Check"
         toolBut.textContent = "Draw"
+        erase = false
+        inctx.clearRect(0, 0, 1, 50)
+
+    } else {
+        if (erase == false){
+            erase = true
+            toolBut.textContent = "Erase"
+        } else {
+            erase = false
+            toolBut.textContent = "Draw"
+        }
     }
 
 }
+
+function submitButton(){
+    if (state == true) {
+        check()
+        state = false
+        subBut.textContent = "Submit"
+        toolBut.textContent = "Tweak"
+    } else {
+        if (submitting == false){
+            submittt()
+        }
+    }
+}
+
+
+function check(){
+    let perc = calcVolumePercent()
+    volNum = Number((perc * 100).toFixed(0))
+
+    console.log(globalPerc)
+    indicator.width = 1
+    inctx.fillStyle = "red"
+    inctx.fillRect(0, 0, 1, indicator.height)
+    indicator.animate([
+        { transform: 'translateX(0px)' },
+        { transform: `translateX(${globalPerc}px)` }
+        ], {
+        duration: 300, // Speed in milliseconds
+        fill: 'forwards' // Keeps the element at the 5px position after moving
+        });
+    //volLabel.textContent = "Volume: " + (perc * 100).toFixed(0)
+
+}
+
+waitingNumber = 0
+waitingint = 0
+
+function submittt(){
+    if (volNum == 0) {
+        submitting = false
+        state = true
+        subBut.textContent = "Check"
+        toolBut.textContent = "Draw"
+        erase = false
+        inctx.clearRect(0, 0, 1, 50)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        drawBounds()
+
+
+    } else {
+        submitting = true
+        waitingNumber = 0
+        waitingint = setInterval(() => {
+        //console.log(waitingNumber)
+        //console.log(volNum)
+        volLabel.textContent = "Volume: " + waitingNumber + "%"
+        ctx.fillStyle = "blue"
+        ctx.clearRect(0, 0, (waitingNumber + 1) * (canvas.width / (volNum + 1)), canvas.height)
+        //ctx.clearRect(0, 0, waitingNumber * (canvas.width / volNum), canvas.height) //- ((canvas.width / volNum) * waitingNumber), canvas.height)
+        drawBounds()
+        if (waitingNumber == volNum){
+            clearInterval(waitingint)
+            submitting = false
+            state = true
+            subBut.textContent = "Check"
+            toolBut.textContent = "Draw"
+            erase = false
+            inctx.clearRect(0, 0, 1, 50)
+        }
+        waitingNumber = waitingNumber + 1
+
+        }, 1500 / (volNum + 1));
+    }
+}
+
+
 
 drawBounds()
