@@ -7,15 +7,24 @@
     <link rel="stylesheet" href="draw.css">
 </head>
 <body>
+    <div class="main">
     <h1>Draw your volume!</h1>
     <h2 id="vol-label">Volume: 0%</h2>
-    <div class="volume-container">
-        <button id = "button-tool" class="tool">Draw</button>
-        <canvas id="indicator" width="1" height="50"></canvas>
-        <canvas id="bar" width="250" height="50"></canvas>
-        <button id = "submit" class="submit">Check</button>
     </div>
-    <p>Fill in the bar left to right to set your volume! Be careful not to color outside the lines. Press check to see how well you did, then submit to set your volume or tweak to continue editing.</p>
+    <div class="second">
+        <div class="volume-container">
+            <div class="tool-container">
+                <button id = "button-tool" class="tool">Switch Tool</button>
+                <h4 id="tool">Current Tool: Draw</h3>
+            </div>
+
+            <canvas id="indicator" width="1" height="150"></canvas>
+            <canvas id="bar" width="700" height="150"></canvas>
+            <button id = "submit" class="submit">Check</button>
+        </div>
+        <p>Fill in the bar left to right to set your volume! Be careful not to color outside the lines. Press check to see how well you did, then submit to set your volume or tweak to continue editing.</p>
+    </div>
+    
     
 
     <script src="draw.js"></script>

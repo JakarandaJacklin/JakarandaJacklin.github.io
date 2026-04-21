@@ -7,6 +7,7 @@ const toolBut = document.querySelector("#button-tool")
 const subBut = document.querySelector("#submit")
 const indicator = document.querySelector("#indicator")
 const inctx = indicator.getContext('2d', { willReadFrequently: true })
+const tool = document.querySelector("#tool")
 
 let erase = false
 let draw = false
@@ -15,13 +16,13 @@ let state = true
 let volNum = 0
 let submitting = false
 
-const brush = 10
+const brush = 30
 
 const colors = ["red", "blue", "green", "pink"]
 let ind = 0
 
-const barW = 200
-const barH = 20
+const barW = 400
+const barH = 50
 
 const yStart = (canvas.height - barH) / 2
 const xStart = (canvas.width - barW) / 2
@@ -32,6 +33,7 @@ document.addEventListener('mouseup', mouseUp)
 canvas.addEventListener('mousemove', drawPixel)
 toolBut.addEventListener("click", toolButton)
 subBut.addEventListener("click", submitButton)
+window.addEventListener('resize', setCenter)
 
 let thisCol = []
 let globalPerc = 0
@@ -195,17 +197,16 @@ function toolButton(){
     if (state == false){
         state = true
         subBut.textContent = "Check"
-        toolBut.textContent = "Draw"
-        erase = false
-        inctx.clearRect(0, 0, 1, 50)
+        toolBut.textContent = "Switch Tool"
+        inctx.clearRect(0, 0, 1, indicator.height)
 
     } else {
         if (erase == false){
             erase = true
-            toolBut.textContent = "Erase"
+            tool.textContent = "Current Tool: Erase"
         } else {
             erase = false
-            toolBut.textContent = "Draw"
+            tool.textContent = "Current Tool: Draw"
         }
     }
 
@@ -252,9 +253,9 @@ function submittt(){
         submitting = false
         state = true
         subBut.textContent = "Check"
-        toolBut.textContent = "Draw"
+        toolBut.textContent = "Switch Tool"
         erase = false
-        inctx.clearRect(0, 0, 1, 50)
+        inctx.clearRect(0, 0, 1, indicator.height)
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         drawBounds()
         volLabel.textContent = "Volume: 0%"
@@ -276,9 +277,9 @@ function submittt(){
             submitting = false
             state = true
             subBut.textContent = "Check"
-            toolBut.textContent = "Draw"
+            toolBut.textContent = "Switch Tool"
             erase = false
-            inctx.clearRect(0, 0, 1, 50)
+            inctx.clearRect(0, 0, 1, indicator.height)
         }
         waitingNumber = waitingNumber + 1
 
@@ -286,6 +287,19 @@ function submittt(){
     }
 }
 
+function setCenter() {
+    const win = window.innerWidth
+    const se = document.querySelector(".second")
+    const fle = document.querySelector(".volume-container")
+
+    let wii = (win - 841) / 2
+    console.log(wii)
+
+    //se.style.paddingLeft = wii + "px"
+    se.style.paddingLeft = wii + "px"
+
+}
 
 
 drawBounds()
+setCenter()
